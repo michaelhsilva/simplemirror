@@ -1,0 +1,49 @@
+<html>
+
+<body align="center">
+  <video id="player" controls autoplay></video>
+
+  <br><br>
+
+  <button id="resume" type="button">Resume video!</button>
+  <button id="pause" type="button">Pause video!</button>
+  <button id="capture" type="button">Take a photo!</button>
+
+  <br><br>
+
+  <canvas id="snapshot" width=320 height=240></canvas>
+  
+  <script>
+    var player = document.getElementById('player');
+    var snapshotCanvas = document.getElementById('snapshot');
+    var resumeButton = document.getElementById('resume');
+    var pauseButton = document.getElementById('pause');
+    var captureButton = document.getElementById('capture');
+    var handleSuccess = function(stream) {
+      player.srcObject = stream;
+      player.play();
+    };
+    
+    navigator.mediaDevices.getUserMedia({
+        video: true
+      })
+      .then(handleSuccess);
+    
+    captureButton.addEventListener('click', function() {
+      var context = snapshot.getContext('2d');
+      // Draw the video frame to the canvas.
+      context.drawImage(player, 0, 0, snapshotCanvas.width,
+        snapshotCanvas.height);
+    });
+    
+    resumeButton.addEventListener('click', function() {
+      player.play();
+    });
+    
+    pauseButton.addEventListener('click', function() {
+      player.pause();
+    });
+  </script>
+</body>
+
+</html>
